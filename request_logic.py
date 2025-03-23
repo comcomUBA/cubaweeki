@@ -1,10 +1,17 @@
 import requests
 import json
 import sqlite3
+import datetime
+from db import Edit, DB, LastRun
 
+db = DB("CubaWeeki.db")
+db.make_tables_if_not_exists()
 URL = "https://www.cubawiki.com.ar/api.php"
 PROPS = "userid|user|title|ids|comment|timestamp"
-WEEKY_START = "2025-01-21T12:00:00Z"
+last = db.get_last(LastRun)
+timestamp = last.timestamp if last else "2025-03-21T12:00:00Z"
+WEEKY_START = datetime.datetime.fromisoformat(timestamp) + datetime.timedelta(seconds=1)
+print(f"FETCHING ALL EDITS FROM {WEEKY_START} TAKE CARE!!!")
 
 def get_recent_edit(con):
     params = {
@@ -31,5 +38,16 @@ def get_recent_edits(con):
         if not con:
             return
 
+res = []
+for e in get_recent_edits(None):
+    res.extend(e)
 
-print(list(get_recent_edits(None)))
+if res:
+    for r in e:
+        db.add(Edit(**r))
+    last = LastRun(timestamp=res[0]["timestamp"])
+    print(f"Added {len(res)} EDITS, last timestamp : {last.timestamp}")
+    db.add(last)
+    db.commit()
+else:
+    "No data found!"

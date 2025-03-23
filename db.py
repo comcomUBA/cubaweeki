@@ -67,6 +67,17 @@ class DB:
             res = clss._from_db(*res)
         cur.close()
         return res
+    
+    def get_last(self, clss):
+        cur = self.conn.cursor()
+        cmd = (f"SELECT * FROM {clss.__name__} WHERE id in"
+            f" (SELECT max(id) FROM {clss.__name__})"
+        )
+        res = cur.execute(cmd).fetchone()
+        if res:
+            res = clss._from_db(*res)
+        cur.close()
+        return res
             
     def make_tables(self):
         self._make_table("CREATE TABLE")
