@@ -1,14 +1,7 @@
 
-from main import *
-
 users_playing = []
-data = {
-    "Rosetree":{},
-    "TopoSort": {},
-    "FloodMax": {},
-}
 
-def assign_team(user):
+def assign_team(user, data):
     """
     Determines the team with the least members and assigns the user to that team.
     """
@@ -17,7 +10,7 @@ def assign_team(user):
     data[least_populated_team][user] = 1
     return least_populated_team
 
-def which_team(user):
+def which_team(user, data):
     """
     Determines which team a user belongs to.
     """
@@ -26,7 +19,7 @@ def which_team(user):
             return key
     return False
     
-def find_userdata_from_edit(edit):
+def find_userdata_from_edit(edit, data):
     """
     Finds the user data tuple (user, userid, score) from the team data.
     If the user is not found, initializes a new tuple with a score of 0.
@@ -43,7 +36,7 @@ def find_userdata_from_edit(edit):
     # If user is not found, return a new tuple with score 0
     return (user, userid)
 
-def add_score(edit):
+def add_score(edit, data):
     """
     Finds the user's current score from the team data and increments it by 1.
     """
@@ -60,7 +53,7 @@ def add_score(edit):
     # If user is not found, return an initial score of 1
     return 1
 
-def get_team_scores():
+def get_team_scores(data):
     """
     Calculates the total score for each team by summing up the scores of all players in the team.
     Returns a dictionary with team names as keys and their total scores as values.
@@ -71,24 +64,3 @@ def get_team_scores():
         total_score = sum(members.values())
         team_scores[team] = total_score
     return team_scores
-
-def main():
-    while True:
-        edits = list(get_recent_edits(None))
-
-        for edit in edits[0] if edits and edits[0] else []:
-            user_data = find_userdata_from_edit(edit)
-
-            if which_team(user_data):
-                #ya tenia contribuciones
-                updated_score = add_score(edit)
-                data[which_team(user_data)][user_data] = updated_score
-            else:
-                #primera vez
-                assign_team(user_data)
-        pprint(data)
-        print(get_team_scores())
-        
-        sleep(10)
-
-main()
