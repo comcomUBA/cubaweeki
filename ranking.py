@@ -2,13 +2,14 @@ from matplotlib import animation, pyplot as plt
 from teams import get_team_scores
 
 
-data = {"Rosetree": {"Fron": 8, "Facu": 12,},
-        "TopoSort": {"Sasha": 15, "Dani": 12, "Daeron": 5,},
-        "FloodMax": {"Pau": 16, "Lau": 9,},
-        }
+#data = {"Rosetree": {"Fron": 8, "Facu": 12,},
+#        "TopoSort": {"Sasha": 15, "Dani": 12, "Daeron": 5,},
+#        "FloodMax": {"Pau": 16, "Lau": 9,},
+#        }
 
 def show_ranking_grupal(data):
-        scores = get_team_scores(data) #Se puede ahorrar si simplemente se llama a la funcion despues de usar get_team_scores en main
+        #Se puede ahorrar si simplemente se llama a la funcion despues de usar get_team_scores en main
+        scores = get_team_scores(data)
         base = [0,0,0]
         plt.style.use('dark_background')
         fig, ax = plt.subplots(figsize = (12, 6))
@@ -75,5 +76,5 @@ def show_ranking_individual(data):
         plt.show()
 
 #show_ranking_grupal(data)
-show_ranking_individual(data)
+#show_ranking_individual(data)
 
