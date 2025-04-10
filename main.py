@@ -1,9 +1,10 @@
 from pprint import pprint
 from request_logic import get_recent_edits
 from teams import find_userdata_from_edit, which_team, assign_team, get_team_scores, add_score
+from ranking import show_ranking
 
 data = {
-    "Rosetree":{},
+    "Rosetree": {},
     "TopoSort": {},
     "FloodMax": {},
 }
@@ -23,4 +24,5 @@ if __name__ == '__main__':
                 #primera vez
                 assign_team(user_data, data)
         pprint(data)
-        print(get_team_scores(data))
+        if edits and edits[0]:
+            show_ranking(get_team_scores(data))
