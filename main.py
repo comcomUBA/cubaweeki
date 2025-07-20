@@ -1,9 +1,10 @@
 from pprint import pprint
 from request_logic import get_recent_edits
 from teams import find_userdata_from_edit, which_team, assign_team, get_team_scores, add_score
+from ranking import show_ranking_grupal, show_ranking_individual
 
 data = {
-    "Rosetree":{},
+    "Rosetree": {},
     "TopoSort": {},
     "FloodMax": {},
 }
