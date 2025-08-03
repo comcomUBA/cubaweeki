@@ -2,11 +2,6 @@ from matplotlib import animation, pyplot as plt
 from teams import get_team_scores
 
 
-#data = {"Rosetree": {"Fron": 8, "Facu": 12,},
-#        "TopoSort": {"Sasha": 15, "Dani": 12, "Daeron": 5,},
-#        "FloodMax": {"Pau": 16, "Lau": 9,},
-#        }
-
 def show_ranking_grupal(data):
         #Se puede ahorrar si simplemente se llama a la funcion despues de usar get_team_scores en main
         scores = get_team_scores(data)
@@ -75,6 +70,12 @@ def show_ranking_individual(data):
 
         plt.show()
 
-#show_ranking_grupal(data)
-#show_ranking_individual(data)
+if __name__ == "__main__":
+        # TODO: traer esto de la db somehow. main lo esta generando.
+        data = {"Rosetree": {"Fron": 8, "Facu": 12,},
+                "TopoSort": {"Sasha": 15, "Dani": 12, "Daeron": 5,},
+                "FloodMax": {"Pau": 16, "Lau": 9,},
+                }
 
+        show_ranking_grupal(data)
+        show_ranking_individual(data)

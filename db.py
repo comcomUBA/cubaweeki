@@ -9,7 +9,7 @@ class Base:
 
     @classmethod
     def _from_db(cls, *args):
-        kwargs = {k : v for k,v in zip(cls.__annotations__, args)}
+        kwargs = {k: v for k, v in zip(cls.__annotations__, args)}
         obj = cls(**kwargs)
         return obj
 
@@ -22,11 +22,11 @@ class Base:
 
 class Edit(Base):
     id: int = None
-    userId: int
+    userid: int
     user: str
-    pageTitle: str
-    pageId: int
-    revId: int
+    title: str
+    pageid: int
+    revid: int
     timestamp: str
     comment: str
 
@@ -58,6 +58,14 @@ class DB:
         cmd = f"INSERT INTO {table} ({fields}) VALUES ({placeholders})"
         cur.execute(cmd, obj.__dict__)
         cur.close()
+
+    def all(self, clss):
+        cur = self.conn.cursor()
+        cmd = f"SELECT * FROM {clss.__name__}"
+        rows = cur.execute(cmd).fetchall()
+        objs = [clss._from_db(*row) for row in rows]
+        cur.close()
+        return objs
 
     def get(self, clss, id):
         cur = self.conn.cursor()

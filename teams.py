@@ -24,8 +24,9 @@ def find_userdata_from_edit(edit, data):
     Finds the user data tuple (user, userid, score) from the team data.
     If the user is not found, initializes a new tuple with a score of 0.
     """
-    user = edit['user']
-    userid = edit['userid']
+
+    user = edit.user
+    userid = edit.userid
     
     # Search for the user in the team data
     for team, members in data.items():
@@ -40,8 +41,8 @@ def add_score(edit, data):
     """
     Finds the user's current score from the team data and increments it by 1.
     """
-    user = edit['user']
-    userid = edit['userid']
+    user = edit.user
+    userid = edit.userid
 
     # Search for the user in the team data
     for team, members in data.items():
