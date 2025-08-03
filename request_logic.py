@@ -23,10 +23,10 @@ def get_recent_edit(con, weeky_start):
 
 def get_recent_edits(con, weeky_start):
     while True:
-        print(f"Getting edits with {con}")
+        # print(f"Getting edits with {con}")
         res = get_recent_edit(con, weeky_start)
         changes = res["query"]["recentchanges"]
-        print(f"Got {len(changes)} edits!!")
+        # print(f"Got {len(changes)} edits!!")
         yield(changes)
         con = res.get("continue", None)
         if not con:
@@ -51,9 +51,7 @@ def do_fetch_run():
     edits = []
     if res:
         for r in res:
-            print(r)
             edit = Edit(**r)
-            print(edit)
             db.add(edit)
             edits.append(edit)
 

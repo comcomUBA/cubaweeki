@@ -1,6 +1,6 @@
 from matplotlib import animation, pyplot as plt
-from teams import get_team_scores
-
+from teams import get_team_scores, teams_data_from_edits
+from request_logic import get_db_edits
 
 def show_ranking_grupal(data):
         #Se puede ahorrar si simplemente se llama a la funcion despues de usar get_team_scores en main
@@ -70,12 +70,31 @@ def show_ranking_individual(data):
 
         plt.show()
 
-if __name__ == "__main__":
-        # TODO: traer esto de la db somehow. main lo esta generando.
-        data = {"Rosetree": {"Fron": 8, "Facu": 12,},
-                "TopoSort": {"Sasha": 15, "Dani": 12, "Daeron": 5,},
-                "FloodMax": {"Pau": 16, "Lau": 9,},
-                }
+def flatten_users(teams):
+    # transform user tuple into user string
+    nteams = {}
+    for team, td in teams.items():
+        ntd = dict()
+        for usertuple, count in td.items():
+            uname, uid = usertuple
+            userstr = f"{uname}#{uid}"
+            ntd[userstr] = count
+        nteams[team] = ntd
+    return nteams
 
-        show_ranking_grupal(data)
-        show_ranking_individual(data)
+
+if __name__ == "__main__":
+    sample_teams_data = {
+        "Rosetree": {"Fron": 8, "Facu": 12,},
+        "TopoSort": {"Sasha": 15, "Dani": 12, "Daeron": 5,},
+        "FloodMax": {"Pau": 16, "Lau": 9,},
+    }
+
+    edits = get_db_edits()
+    teams = teams_data_from_edits(edits)
+
+    # to avoid random numpy error downstream
+    teams = flatten_users(teams)
+
+    show_ranking_grupal(teams)
+    show_ranking_individual(teams)

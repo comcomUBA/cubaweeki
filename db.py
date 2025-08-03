@@ -18,7 +18,6 @@ class Base:
         d = self.__dict__
         annotations = ', '.join([f"{key}:{d[key]}" for key in keys if key in d.keys()])
         return annotations
-        
 
 class Edit(Base):
     id: int = None
@@ -33,7 +32,6 @@ class Edit(Base):
 class LastRun(Base):
     id: int = None
     timestamp: str
-
 
 class DB:
     def __init__(self, url):
