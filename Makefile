@@ -1,19 +1,26 @@
+PYTHON = python3
+# PYTHON = venv/bin/python3
+
 # ESTO ES LO QUE HAY QUE CRONEAR
 json: edits.json
 
 # json a partir de la data de la db
 .PHONY: edits.json
 edits.json: fetch
-	python3 main.py > edits.json
+	$(PYTHON) main.py > edits.json
 
 # bajar de cubawiki a la db
 fetch:
-	python3 request_logic.py
+	$(PYTHON) request_logic.py
 
 # graficos animados
 ranking:
-	python3 ranking.py
+	$(PYTHON) ranking.py
 
 # bye bye ocean
 clean:
 	rm -f CubaWeeki.db
+
+venv:
+	python3 -m venv venv
+	venv/bin/pip install -r requirements.txt

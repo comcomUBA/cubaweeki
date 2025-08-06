@@ -1,6 +1,11 @@
-from matplotlib import animation, pyplot as plt
 from teams import get_team_scores, teams_data_from_edits
 from request_logic import get_db_edits
+
+try:
+        from matplotlib import animation, pyplot as plt
+except:
+        import sys
+        print("no matplotlib...", file=sys.stderr)
 
 def show_ranking_grupal(data):
         #Se puede ahorrar si simplemente se llama a la funcion despues de usar get_team_scores en main
