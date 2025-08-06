@@ -3,7 +3,7 @@
 // set the dimensions and margins of the graph
 const barSize = 24
 const rowCount = 17;
-const margin = { top: 20, right: 30, bottom: 0, left: 90 };
+const margin = { top: 0, right: 0, bottom: 20, left: 160 };
 const width = 800 - margin.left - margin.right;
 const height = margin.top + barSize * rowCount + margin.bottom;
 
@@ -15,10 +15,10 @@ loadDatabase = () => {
     d3.selectAll('g').interrupt();
     d3.selectAll('rect').interrupt();
     d3.selectAll('text').interrupt();
-    d3.select('#my_dataviz').select('svg').remove()
+    d3.select('#dataviz').select('svg').remove()
 
     // append the svg object to the body of the page
-    const svg = d3.select("#my_dataviz")
+    const svg = d3.select("#dataviz")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -81,7 +81,7 @@ loadDatabase = () => {
             .style("font-variant-numeric", "tabular-nums")
             .attr("text-anchor", "end")
             .attr("x", width - 6)
-            .attr("y", margin.top + barSize * (rowCount - 0.45))
+            .attr("y", height - margin.bottom/2)
             .attr("dy", "0.32em")
             .text(formatDate(keyframes[0][0]));
 
@@ -91,7 +91,7 @@ loadDatabase = () => {
 
             g.transition(transition).call(axis);
             g.select(".tick:first-of-type text").remove();
-            g.selectAll(".tick:not(:first-of-type) line").attr("stroke", "white");
+            g.selectAll(".tick:not(:first-of-type) line").attr("stroke", "rgba(0, 0, 0, 0.3)");
             g.select(".domain").remove();
 
             x.domain([0, d3.max(data, (d) => d.value) * 1.1])
@@ -102,15 +102,15 @@ loadDatabase = () => {
                         .attr("fill", color)
                         .attr("height", y.bandwidth())
                         .attr("x", x(0))
-                        .attr("y", d => yu((prev.get(d) || d).rank))
-                        .attr("width", d => x((prev.get(d) || d).value) - x(0)),
+                        .attr("y",     d => yu((prev.get(d) || d).rank))
+                        .attr("width", d =>  x((prev.get(d) || d).value) - x(0)),
 
                     update => update.transition(transition)
-                        .attr("y", d => y(d.rank))
+                        .attr("y",     d => y(d.rank))
                         .attr("width", d => x(d.value) - x(0)),
 
                     exit => exit.transition(transition).remove()
-                        .attr("y", d => y((next.get(d) || d).rank))
+                        .attr("y",     d => y((next.get(d) || d).rank))
                         .attr("width", d => x((next.get(d) || d).value) - x(0))
                 )
 
@@ -142,13 +142,16 @@ loadDatabase = () => {
                     update => {
                         update = update.transition(transition)
                         update.attr("transform", d => `translate(0,${y(d.rank)})`)
-                        update.select(".value").attr("transform", d => `translate(${x(d.value)}, 0)`).tween("text", d => textTween((prev.get(d) || d).value, d.value))
+                        update.select(".value")
+                            .attr("transform", d => `translate(${x(d.value)}, 0)`)
+                            .tween("text",     d => textTween((prev.get(d) || d).value, d.value))
                         return update
                     },
 
                     exit => exit.transition(transition).remove()
                         .attr("transform", d => `translate(0,${y((next.get(d) || d).rank)})`)
-                        .call(g => g.select("tspan").tween("text", d => textTween(d.value, (next.get(d) || d).value)))
+                        .call(g => g.select("tspan")
+                        .tween("text", d => textTween(d.value, (next.get(d) || d).value)))
                 )
             await transition.end().then(() => now.text(formatDate(date)));
         }
@@ -160,6 +163,11 @@ loadDatabase = () => {
             };
         }
     })
+
+    const css = dataviz.childNodes[0].style
+    css.fontFamily = "sans-serif"
+    css.fontWeight = "bold"
+    css.fontSize = "12px"
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {

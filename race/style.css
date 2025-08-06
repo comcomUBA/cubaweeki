@@ -1,8 +1,7 @@
-body {
-    background-color: #F9ECCC;
-    margin: 20px;
+* {
+    font-family: sans-serif;
 }
 
-#my_dataviz {
+#dataviz {
     text-align: center;
 }
