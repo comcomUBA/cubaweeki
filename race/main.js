@@ -158,6 +158,7 @@ loadDatabase = () => {
         }
     })
 }
-d3.selectAll('button').on('click', event => {
-    loadDatabase()
-})
+
+document.addEventListener("DOMContentLoaded", function(event) {
+    loadDatabase();
+});
