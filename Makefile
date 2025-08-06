@@ -7,7 +7,7 @@ json: edits.json
 # json a partir de la data de la db
 .PHONY: edits.json
 edits.json: fetch
-	$(PYTHON) main.py > edits.json
+	$(PYTHON) main.py > race/edits.json
 
 # bajar de cubawiki a la db
 fetch:
