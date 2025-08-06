@@ -2,10 +2,10 @@
 
 // set the dimensions and margins of the graph
 const barSize = 24
-const n = 17;
+const rowCount = 17;
 const margin = { top: 20, right: 30, bottom: 0, left: 90 };
 const width = 800 - margin.left - margin.right;
-const height = margin.top + barSize * n + margin.bottom;
+const height = margin.top + barSize * rowCount + margin.bottom;
 
 const formatNumber = d3.format(",d");
 const scale = d3.scaleOrdinal(d3.schemeTableau10);
@@ -50,9 +50,12 @@ loadDatabase = () => {
 
         x = d3.scaleLinear([0, 1], [5, width - margin.right])
         y = d3.scaleBand()
-            .domain(d3.range(n + 1))
-            .rangeRound([margin.top, margin.top + barSize * (n + 1 + 0.1)])
+            .domain(d3.range(rowCount + 1))
+            .rangeRound([margin.top, margin.top + barSize * (rowCount + 1 + 0.1)])
             .padding(0.1)
+        yu = (i) => {
+            return y(i) || y(rowCount)
+        }
 
         let bar = svg.append("g")
             .attr("fill-opacity", 0.6)
@@ -64,7 +67,7 @@ loadDatabase = () => {
             .axisTop(x)
             .ticks(width / 160)
             .tickSizeOuter(0)
-            .tickSizeInner(-barSize * (n + y.padding()))
+            .tickSizeInner(-barSize * (rowCount + y.padding()))
             .tickFormat(d => formatNumber(d).replaceAll(",", "."));
 
         let label = svg.append("g")
@@ -78,7 +81,7 @@ loadDatabase = () => {
             .style("font-variant-numeric", "tabular-nums")
             .attr("text-anchor", "end")
             .attr("x", width - 6)
-            .attr("y", margin.top + barSize * (n - 0.45))
+            .attr("y", margin.top + barSize * (rowCount - 0.45))
             .attr("dy", "0.32em")
             .text(formatDate(keyframes[0][0]));
 
@@ -93,13 +96,13 @@ loadDatabase = () => {
 
             x.domain([0, d3.max(data, (d) => d.value) * 1.1])
 
-            bar = bar.data(data.slice(0, n), d => d.name)
+            bar = bar.data(data.slice(0, rowCount), d => d.name)
                 .join(
                     enter => enter.append("rect")
                         .attr("fill", color)
                         .attr("height", y.bandwidth())
                         .attr("x", x(0))
-                        .attr("y", d => y((prev.get(d) || d).rank))
+                        .attr("y", d => yu((prev.get(d) || d).rank))
                         .attr("width", d => x((prev.get(d) || d).value) - x(0)),
 
                     update => update.transition(transition)
@@ -112,11 +115,11 @@ loadDatabase = () => {
                 )
 
             label = label
-                .data(data.slice(0, n), d => d.name)
+                .data(data.slice(0, rowCount), d => d.name)
                 .join(
                     enter => {
                         let text = enter.append("g")
-                            .attr("transform", d => `translate(0,${y((prev.get(d) || d).rank)})`)
+                            .attr("transform", d => `translate(0,${yu((prev.get(d) || d).rank)})`)
 
                         text.append("text")
                             .attr("y", y.bandwidth() / 2)
