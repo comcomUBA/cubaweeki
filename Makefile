@@ -27,3 +27,9 @@ venv:
 
 serve:
 	cd race; python3 -m http.server
+
+docker-build:
+	sudo docker build -t weeki .
+
+docker-run:
+	sudo docker run --rm -it -v $$PWD:/app weeki
