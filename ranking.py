@@ -4,10 +4,12 @@ from request_logic import get_db_edits
 try:
         from matplotlib import animation, pyplot as plt
 except:
-        import sys
-        print("no matplotlib...", file=sys.stderr)
+        matplotlib = None
 
 def show_ranking_grupal(data):
+        if not matplotlib:
+                raise ImportError("no matplotlib")
+
         #Se puede ahorrar si simplemente se llama a la funcion despues de usar get_team_scores en main
         scores = get_team_scores(data)
         base = [0,0,0]
@@ -41,6 +43,9 @@ def show_ranking_grupal(data):
 
 
 def show_ranking_individual(data):
+        if not matplotlib:
+                raise ImportError("no matplotlib")
+
         # Capaz conviene hacer un refactoring de esta parte e incluirla en teams.py como otra funcion
         contributors = list()
         for team, members, in data.items():
