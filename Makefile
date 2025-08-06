@@ -1,5 +1,5 @@
-# PYTHON = python3
-PYTHON = venv/bin/python3
+PYTHON = python3
+# PYTHON = venv/bin/python3
 
 # ESTO ES LO QUE HAY QUE CRONEAR
 json: edits.json
