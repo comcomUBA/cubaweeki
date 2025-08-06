@@ -1,5 +1,5 @@
-PYTHON = python3
-# PYTHON = venv/bin/python3
+# PYTHON = python3
+PYTHON = venv/bin/python3
 
 # ESTO ES LO QUE HAY QUE CRONEAR
 json: edits.json
@@ -24,3 +24,6 @@ clean:
 venv:
 	python3 -m venv venv
 	venv/bin/pip install -r requirements.txt
+
+serve:
+	cd race; python3 -m http.server
