@@ -32,4 +32,4 @@ docker-build:
 	sudo docker build -t weeki .
 
 docker-run:
-	sudo docker run --rm -it -v $$PWD:/app weeki
+	sudo docker run --rm -v $$PWD:/app weeki
