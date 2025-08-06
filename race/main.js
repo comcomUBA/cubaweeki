@@ -8,8 +8,49 @@ const width = 800 - margin.left - margin.right;
 const height = margin.top + barSize * rowCount + margin.bottom;
 
 const formatNumber = d3.format(",d");
-const scale = d3.scaleOrdinal(d3.schemeTableau10);
-const color = (d) => scale(d.name);
+let colors = [
+    "#7E2553",
+    "#008751",
+    "#AB5236",
+    "#5F574F",
+    "#C2C3C7",
+    "#FFF1E8",
+    "#FF004D",
+    "#FFA300",
+    "#FFEC27",
+    "#00E436",
+    "#29ADFF",
+    "#83769C",
+    "#FF77A8",
+    "#FFCCAA",
+]
+
+colors = [
+    colors[13], // ! 0
+    colors[4],  //   1
+    colors[11], // ! 2
+    colors[3],  // ! 3
+    colors[10], // ! 4
+    colors[7],  // ! 5
+    colors[5],  //   6
+    colors[8],  // ! 7
+    colors[0],  // ! 8
+    colors[1],  // ! 9
+    colors[9],  // ! 10
+    colors[6],  // ! 11
+    colors[12], // ! 12
+    colors[2],  // ! 13
+]
+
+const givenColor = {}
+const color = (d) => {
+    let gc = givenColor[d.name]
+    if (gc) return gc;
+    gc = colors[0];
+    givenColor[d.name] = gc;
+    colors = colors.slice(1, colors.length).concat(colors.slice(0, 1));
+    return gc
+}
 
 loadDatabase = () => {
     d3.selectAll('g').interrupt();
@@ -25,7 +66,7 @@ loadDatabase = () => {
         .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-    const duration = 150;
+    const duration = 10;
     const formatDate = d3.utcFormat("%Y-%m-%d");
 
     d3.json(`./edits.json?t=${Date.now()}`, d3.autoType,).then(async function (data) {
@@ -58,7 +99,6 @@ loadDatabase = () => {
         }
 
         let bar = svg.append("g")
-            .attr("fill-opacity", 0.6)
             .selectAll("rect");
 
         const g = svg.append("g").attr("transform", `translate(0,${margin.top})`);
@@ -170,6 +210,13 @@ loadDatabase = () => {
     css.fontSize = "12px"
 }
 
+function debugColors() {
+    colors.forEach((col, i) =>
+        document.body.innerHTML += (`<li><span style="display:inline-block; background:${col}; width:20px; height:20px;"></span> ${i}: ${col}`)
+    );
+}
+
 document.addEventListener("DOMContentLoaded", function(event) {
+    // debugColors();
     loadDatabase();
 });
