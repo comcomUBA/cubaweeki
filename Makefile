@@ -1,13 +1,17 @@
-PYTHON = python3
-# PYTHON = venv/bin/python3
+# PYTHON = python3
+PYTHON = venv/bin/python3
 
 # ESTO ES LO QUE HAY QUE CRONEAR
-json: edits.json
+json: race/edits.json race/teams.json
 
 # json a partir de la data de la db
-.PHONY: edits.json
-edits.json: fetch
+.PHONY: race/edits.json
+race/edits.json: fetch
 	$(PYTHON) main.py > race/edits.json
+
+.PHONY: race/edits.json
+race/teams.json: fetch
+	$(PYTHON) main_teams.py > race/teams.json
 
 # bajar de cubawiki a la db
 fetch:
