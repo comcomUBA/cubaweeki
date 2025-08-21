@@ -2,7 +2,7 @@
 PYTHON = venv/bin/python3
 
 # ESTO ES LO QUE HAY QUE CRONEAR
-json: race/edits.json race/teams.json
+json: race/edits.json race/teams.json teams
 
 # json a partir de la data de la db
 .PHONY: race/edits.json
