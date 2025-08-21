@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Team Membership Visualization</title>
+  <script src="vendor/d3.js"></script>
+  <style>
+    body { font-family: sans-serif; background: #f9f9f9; }
+    .team-list { display: flex; gap: 40px; justify-content: center; margin-top: 40px; }
+    .team {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px #ccc;
+      padding: 24px 32px;
+      min-width: 220px;
+    }
+    .team-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: #4682b4;
+      text-align: center;
+    }
+    .member {
+      font-size: 16px;
+      margin: 4px 0;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center;">Team Memberships</h1>
+  <div class="team-list" id="team-list"></div>
+  <script>
+    d3.json("teams.json").then(function(data) {
+      // Group users by team
+      const teams = {};
+      Object.entries(data).forEach(([user, team]) => {
+        if (!teams[team]) teams[team] = [];
+        teams[team].push(user);
+      });
+      // Render each team
+      const container = d3.select("#team-list");
+      Object.entries(teams).forEach(([team, members]) => {
+        const teamDiv = container.append("div").attr("class", "team");
+        teamDiv.append("div").attr("class", "team-title").text(team);
+        members.sort();
+        members.forEach(member => {
+          teamDiv.append("div").attr("class", "member").text(member);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -32,6 +32,9 @@ venv:
 serve:
 	cd race; python3 -m http.server
 
+teams:
+	$(PYTHON) aggregate_team_scores.py
+
 docker-build:
 	sudo docker build -t weeki .
 
