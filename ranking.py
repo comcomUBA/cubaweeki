@@ -26,7 +26,7 @@ def show_ranking_grupal(data):
         colors = ['cyan', 'magenta', 'springgreen']
 
         while base != list(scores.values()):
-                if base[0] != scores["Rosetree"]:
+                if base[0] != scores["RoseTree"]:
                         base[0] = base[0] + 1
                 if base[1] != scores["TopoSort"]:
                         base[1] = base[1] + 1
@@ -95,7 +95,7 @@ def flatten_users(teams):
 
 if __name__ == "__main__":
     sample_teams_data = {
-        "Rosetree": {"Fron": 8, "Facu": 12,},
+        "RoseTree": {"Fron": 8, "Facu": 12,},
         "TopoSort": {"Sasha": 15, "Dani": 12, "Daeron": 5,},
         "FloodMax": {"Pau": 16, "Lau": 9,},
     }

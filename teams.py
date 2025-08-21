@@ -1,6 +1,6 @@
 def initial_teams_data():
     return {
-        "Rosetree": {},
+        "RoseTree": {},
         "TopoSort": {},
         "FloodMax": {},
     }
