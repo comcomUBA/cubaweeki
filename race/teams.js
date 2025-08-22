@@ -9,37 +9,9 @@ const height = margin.top + barSize * rowCount + margin.bottom;
 
 const formatNumber = d3.format(",d");
 let colors = [
-    "#7E2553",
-    "#008751",
-    "#AB5236",
-    "#5F574F",
-    "#C2C3C7",
-    "#FFF1E8",
     "#FF004D",
-    "#FFA300",
-    "#FFEC27",
     "#00E436",
     "#29ADFF",
-    "#83769C",
-    "#FF77A8",
-    "#FFCCAA",
-]
-
-colors = [
-    colors[13], // ! 0
-    colors[4],  //   1
-    colors[11], // ! 2
-    colors[3],  // ! 3
-    colors[10], // ! 4
-    colors[7],  // ! 5
-    colors[5],  //   6
-    colors[8],  // ! 7
-    colors[0],  // ! 8
-    colors[1],  // ! 9
-    colors[9],  // ! 10
-    colors[6],  // ! 11
-    colors[12], // ! 12
-    colors[2],  // ! 13
 ]
 
 const givenColor = {}
