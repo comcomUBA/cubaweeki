@@ -6,6 +6,7 @@ from db import Edit, DB, LastRun
 
 URL = "https://www.cubawiki.com.ar/api.php"
 PROPS = "userid|user|title|ids|comment|timestamp"
+WEEKI_START = "2025-08-22T03:00:00"
 
 def get_recent_edit(con, weeky_start):
     params = {
@@ -40,7 +41,7 @@ def get_db_edits():
 
 def do_fetch_run():
     last = db.get_last(LastRun)
-    timestamp = last.timestamp if last else "2025-03-21T12:00:00Z"
+    timestamp = last.timestamp if last else WEEKI_START
     WEEKY_START = datetime.datetime.fromisoformat(timestamp) + datetime.timedelta(seconds=1)
     print(f"fetching edits since {WEEKY_START}")
 
@@ -65,3 +66,4 @@ def do_fetch_run():
 
 if __name__ == "__main__":
     do_fetch_run()
+
